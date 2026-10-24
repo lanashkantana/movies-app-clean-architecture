@@ -1,9 +1,17 @@
 import 'package:film_app/movies/data/models/geners_model.dart';
 import 'package:film_app/movies/domain/entities/movie_detail.dart';
+import 'package:film_app/movies/domain/entities/geners.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'movie_details_model.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class MovieDetailsModel extends MovieDetail {
+  // تم حذف الـ @override final List<GenersModel> genres بالكامل!
+
   const MovieDetailsModel({
-    required super.genres,
+    // المهندسون المحترفون يوجهون المكتبة للتحويل هنا مباشرة:
+    @JsonKey(fromJson: _genresListFromJson) required super.genres,
     required super.backDropPath,
     required super.id,
     required super.overview,
@@ -13,18 +21,11 @@ class MovieDetailsModel extends MovieDetail {
     required super.voteAverage,
   });
 
-  factory MovieDetailsModel.fromJson(Map<String, dynamic> json) {
-    return MovieDetailsModel(
-      genres: List<GenersModel>.from(
-        json['genres'].map((x) => GenersModel.fromJson(x)),
-      ),
-      backDropPath: json['backdrop_path'],
-      id: json['id'] as int,
-      overview: json['overview'],
-      releaseDate: json['release_date'],
-      runtime: json['runtime'] as int,
-      title: json['title'],
-      voteAverage: (json['vote_average'] as num).toDouble(),
-    );
-  }
+  factory MovieDetailsModel.fromJson(Map<String, dynamic> json) =>
+      _$MovieDetailsModelFromJson(json);
+}
+
+// دالة خارجية نظيفة جداً وظيفتها الوحيدة إخبار المكتبة كيف تفك تشفير هذه المصفوفة
+List<Geners> _genresListFromJson(List<dynamic> json) {
+  return json.map((e) => GenersModel.fromJson(e as Map<String, dynamic>)).toList();
 }

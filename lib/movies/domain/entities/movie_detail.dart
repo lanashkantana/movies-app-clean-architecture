@@ -12,7 +12,7 @@ class MovieDetail extends Equatable {
   final List<Geners> genres;
 
   const MovieDetail({
-    required this. genres,
+    required this.genres,
     required this.backDropPath,
     required this.id,
     required this.overview,
@@ -32,5 +32,6 @@ class MovieDetail extends Equatable {
     runtime,
     title,
     voteAverage,
+    genres,
   ];
 }

@@ -14,18 +14,25 @@ dependencies:
   carousel_slider: ^5.1.2
   cupertino_icons: ^1.0.8
   dartz: ^0.10.1
-  dio: ^5.11.1
+  dio: null
   equatable: ^3.0.0
   flutter:
     sdk: flutter
-  flutter_bloc: ^9.1.1
+  flutter_bloc: null
+  freezed_annotation: null
   get_it: ^9.3.0
   google_fonts: any
-  shimmer: any
+  json_annotation: null
+  retrofit: null
+  shimmer: 
 dev_dependencies:
+  build_runner:
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
+  freezed:
+  json_serializable:
+  retrofit_generator:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
