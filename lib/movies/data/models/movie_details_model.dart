@@ -5,13 +5,26 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'movie_details_model.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
-class MovieDetailsModel extends MovieDetail {
-  // تم حذف الـ @override final List<GenersModel> genres بالكامل!
+// 1. هذا هو المحوّل السحري: مهمته يترجم الـ Geners للمكتبة
+class GenersConverter implements JsonConverter<List<Geners>, List<dynamic>> {
+  const GenersConverter();
 
+  @override
+  List<Geners> fromJson(List<dynamic> json) {
+    return json.map((e) => GenersModel.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
+  @override
+  List<dynamic> toJson(List<Geners> object) => [];
+}
+
+// 2. نضع المحول فوق الكلاس ليفهم كل المتغيرات الموروثة
+@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
+@GenersConverter() // 👈 السحر هنا!
+class MovieDetailsModel extends MovieDetail {
+  
   const MovieDetailsModel({
-    // المهندسون المحترفون يوجهون المكتبة للتحويل هنا مباشرة:
-    @JsonKey(fromJson: _genresListFromJson) required super.genres,
+    required super.genres, // رجعناها طبيعية 100% وبدون أي مشاكل!
     required super.backDropPath,
     required super.id,
     required super.overview,
@@ -23,9 +36,4 @@ class MovieDetailsModel extends MovieDetail {
 
   factory MovieDetailsModel.fromJson(Map<String, dynamic> json) =>
       _$MovieDetailsModelFromJson(json);
-}
-
-// دالة خارجية نظيفة جداً وظيفتها الوحيدة إخبار المكتبة كيف تفك تشفير هذه المصفوفة
-List<Geners> _genresListFromJson(List<dynamic> json) {
-  return json.map((e) => GenersModel.fromJson(e as Map<String, dynamic>)).toList();
 }

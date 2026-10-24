@@ -1,3 +1,4 @@
+import 'package:film_app/movies/data/datasource/movie_api_service.dart';
 import 'package:film_app/movies/data/datasource/movie_remote_data_source.dart';
 import 'package:film_app/movies/data/repository/movies_repository.dart';
 import 'package:film_app/movies/domain/repository/base_movies_repository.dart';
@@ -16,40 +17,37 @@ class ServicesLocator {
   void init() {
     ///! Bloc
 
-    getIt.registerFactory(() => MoviesBloc(getIt(),getIt(),getIt()));
+    getIt.registerFactory(() => MoviesBloc(getIt(), getIt(), getIt()));
 
-
-    getIt.registerFactory(() => MovieDetailsBloc(getIt(),getIt()));
-
+    getIt.registerFactory(() => MovieDetailsBloc(getIt(), getIt()));
 
     //! UseCases
     getIt.registerLazySingleton(() => GetNowPlayingMoviesUsecase(getIt()));
 
-
- //! use case for recommendations
-     getIt.registerLazySingleton(() => GetMovieRecommendationUsecase(getIt()));
+    //! use case for recommendations
+    getIt.registerLazySingleton(() => GetMovieRecommendationUsecase(getIt()));
 
     //! use case for details
-      getIt.registerLazySingleton(() => GetMovieDetailsUseCase(getIt()));
+    getIt.registerLazySingleton(() => GetMovieDetailsUseCase(getIt()));
 
-
-    //?use case two 
+    //?use case two
     getIt.registerLazySingleton(() => GetPopularMoviesUsecase(getIt()));
 
-     //?use case three
-      getIt.registerLazySingleton(() => GetTopRatedMoviesUsecase(getIt()));
+    //?use case three
+    getIt.registerLazySingleton(() => GetTopRatedMoviesUsecase(getIt()));
 
     //! Repositry
     getIt.registerLazySingleton<BaseMoviesRepository>(
       () => MoviesRepository(getIt()),
     );
-
-
-
     //! Data Source
-
     getIt.registerLazySingleton<BaseMovieRemoteDataSource>(
-      () => MovieRemoteDataSource(),
+      () => MovieRemoteDataSource(getIt()),
+    );
+
+    
+    getIt.registerLazySingleton<MovieApiService>(
+      () => MovieApiService(getIt()),
     );
   }
 }
