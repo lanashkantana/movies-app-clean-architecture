@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:film_app/core/network/api_constance.dart';
 import 'package:film_app/core/utils/enums.dart';
-import 'package:film_app/movies/presentation/controller/bloc/movies_bloc.dart';
+import 'package:film_app/movies/presentation/controller/cubit/movie_all_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -12,7 +12,7 @@ class TopRatedComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MoviesBloc, MoviesState>(
+    return BlocBuilder<MoviesCubit, MoviesState>(
        buildWhen: (previous, current) => 
     previous.nowPlayingState != current.nowPlayingState || 
     previous.nowPlayingMovies != current.nowPlayingMovies,

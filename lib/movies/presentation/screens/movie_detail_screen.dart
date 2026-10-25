@@ -4,7 +4,7 @@ import 'package:film_app/core/network/api_constance.dart';
 import 'package:film_app/core/services/services_locator.dart';
 import 'package:film_app/core/utils/enums.dart';
 import 'package:film_app/movies/domain/entities/geners.dart';
-import 'package:film_app/movies/presentation/controller/bloc/movie_details_bloc.dart';
+import 'package:film_app/movies/presentation/controller/cubit/movie_details_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,18 +15,16 @@ import 'package:shimmer/shimmer.dart';
   final int id;
 
   const MovieDetailScreen({required this.id, super.key});
-
-  @override
+@override
   Widget build(BuildContext context) {
-    // print(id);
     return BlocProvider(
       create: (context) {
-        return getIt<MovieDetailsBloc>()
-          ..add(GetMovieRemmendationEvent(movieId: id))
-          ..add(GetMovieDetailsEvent(movieId: id));
+        return getIt<MovieDetailsCubit>()
+          // استدعاء الدوال المباشرة بدلاً من add(Event)
+          ..getMovieRecommendations(id)
+          ..getMovieDetails(id);
       },
-
-      child: Scaffold(body: MovieDetailContent()),
+      child: const Scaffold(body: MovieDetailContent()),
     );
   }
 }
@@ -36,7 +34,7 @@ class MovieDetailContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
+    return BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
       buildWhen: (previous, current) =>
           previous.movieDetailState != current.movieDetailState ||
           previous.movieDetail != current.movieDetail,
@@ -249,7 +247,7 @@ String _showDuration(int runtime) {
 //! //////////////////////////////////////////////////
 
 Widget _showRecommendations() {
-  return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
+  return BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
     buildWhen: (previous, current) =>
         previous.recommendationState != current.recommendationState ||
         previous.recommendation != current.recommendation,

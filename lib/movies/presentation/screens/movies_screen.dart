@@ -2,7 +2,7 @@ import 'package:film_app/core/services/services_locator.dart';
 import 'package:film_app/movies/presentation/components/now_playing_component.dart';
 import 'package:film_app/movies/presentation/components/popular_component.dart';
 import 'package:film_app/movies/presentation/components/top_rated_component.dart';
-import 'package:film_app/movies/presentation/controller/bloc/movies_bloc.dart';
+import 'package:film_app/movies/presentation/controller/cubit/movie_all_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,10 +14,10 @@ class MoviesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return getIt<MoviesBloc>()
-          ..add(GetNowPlayingMoviesEvent())
-          ..add(GetTopRatedMoviesEvent())
-          ..add(GetPopularMoviesEvent());
+        return getIt<MoviesCubit>()
+          ..getNowPlayingMovies()
+          ..getPopularMovies()
+          ..getTopRatedMovies();
       },
 
       child: Scaffold(
