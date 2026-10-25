@@ -17,7 +17,7 @@ class TopRatedComponent extends StatelessWidget {
     previous.nowPlayingState != current.nowPlayingState || 
     previous.nowPlayingMovies != current.nowPlayingMovies,
       builder: (context, state) {
-        // print("blocbuilder now TopRatedComponent");
+        print("blocbuilder now TopRatedComponent");
 
         switch (state.topRatedState) {
           case RequestState.loading:
